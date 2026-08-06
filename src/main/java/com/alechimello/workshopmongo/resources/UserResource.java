@@ -22,19 +22,21 @@ public class UserResource {
     private UserService service;
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> findAll(){
+    public ResponseEntity<List<UserDTO>> findAll() {
 
         List<User> users = service.findAll();
         List<UserDTO> usersDTO = users.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
         return ResponseEntity.ok().body(usersDTO);
     }
+
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> findById(@PathVariable String id){
+    public ResponseEntity<UserDTO> findById(@PathVariable String id) {
         User user = service.findById(id);
         return ResponseEntity.ok().body(new UserDTO(user));
     }
+
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody UserDTO userDTO){
+    public ResponseEntity<Void> insert(@RequestBody UserDTO userDTO) {
         User user = service.fromDTO(userDTO);
         user = service.insert(user);
         //Aqui pegamos o endereço do novo objeto inserido e retornamos
@@ -42,10 +44,20 @@ public class UserResource {
         //Created é o código 201 e com o cabeçalho do novo objeto adicionado
         return ResponseEntity.created(uri).build();
     }
+
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id){
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         service.delete(id);
         //noCotent é o código 204
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@RequestBody UserDTO userDTO, @PathVariable String id) {
+        User user = service.fromDTO(userDTO);
+        user.setId(id);
+        user = service.update(user);
+
         return ResponseEntity.noContent().build();
     }
 }

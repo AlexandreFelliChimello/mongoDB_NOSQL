@@ -4,6 +4,7 @@ import com.alechimello.workshopmongo.domain.User;
 import com.alechimello.workshopmongo.dto.UserDTO;
 import com.alechimello.workshopmongo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.core.support.RepositoryMethodInvocationListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,5 +36,15 @@ public class UserService {
     public void delete(String id) {
         findById(id);
         repository.deleteById(id);
+    }
+
+    public User update(User user) {
+        User newUser = findById(user.getId());
+        updateData(newUser, user);
+        return repository.save(newUser);
+    }
+    public void updateData(User newUser, User oldUser) {
+        newUser.setName(oldUser.getName());
+        newUser.setEmail(oldUser.getEmail());
     }
 }
