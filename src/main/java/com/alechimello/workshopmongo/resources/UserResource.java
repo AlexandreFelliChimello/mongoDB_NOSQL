@@ -42,5 +42,10 @@ public class UserResource {
         //Created é o código 201 e com o cabeçalho do novo objeto adicionado
         return ResponseEntity.created(uri).build();
     }
-
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id){
+        service.delete(id);
+        //noCotent é o código 204
+        return ResponseEntity.noContent().build();
+    }
 }
