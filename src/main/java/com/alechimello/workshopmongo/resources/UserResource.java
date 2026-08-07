@@ -1,5 +1,6 @@
 package com.alechimello.workshopmongo.resources;
 
+import com.alechimello.workshopmongo.domain.Post;
 import com.alechimello.workshopmongo.domain.User;
 import com.alechimello.workshopmongo.dto.UserDTO;
 import com.alechimello.workshopmongo.services.UserService;
@@ -35,6 +36,12 @@ public class UserResource {
         return ResponseEntity.ok().body(new UserDTO(user));
     }
 
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+        User user = service.findById(id);
+        return ResponseEntity.ok().body(user.getPosts());
+    }
+
     @PostMapping
     public ResponseEntity<Void> insert(@RequestBody UserDTO userDTO) {
         User user = service.fromDTO(userDTO);
@@ -60,4 +67,5 @@ public class UserResource {
 
         return ResponseEntity.noContent().build();
     }
+
 }
