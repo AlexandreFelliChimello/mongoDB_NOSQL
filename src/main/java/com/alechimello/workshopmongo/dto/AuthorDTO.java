@@ -33,16 +33,4 @@ public class AuthorDTO implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        AuthorDTO authorDTO = (AuthorDTO) o;
-        return Objects.equals(getId(), authorDTO.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
 }
